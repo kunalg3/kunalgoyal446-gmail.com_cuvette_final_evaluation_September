@@ -1,6 +1,6 @@
 const User=require('../models/User')
 
-const get=(req,res)=>{
+const showUser=(req,res)=>{
     User.find({}).then((result)=>{
         console.log("records fetch",result)
         res.json(result)
@@ -9,19 +9,21 @@ const get=(req,res)=>{
     })
 }
 
-const post=(req,res)=>{
-    const newObj=new User({
-        firstName:"pqrs",
-        lastName:"opal"
-    })
-    newObj.save().then((res)=>{
+const createUser=(req,res)=>{
+    // const newObj=new User({
+    //     firstName:"pqrs",
+    //     lastName:"opal"
+    // })
+    const newObj=new User(req.body)
+    console.log(newObj)
+    newObj.save().then(()=>{
         res.json({"message":"success"})
     }).catch((err)=>{
-        res.json({"message":"error"})
+        res.json({"message":err})
     })
 }
 
 module.exports={
-    get,
-    post
+    showUser,
+    createUser
 }

@@ -11,7 +11,7 @@
 .heading{
     color:#474444;
     font-weight: 100;
-    font-size: 80px;
+    font-size: 100px;
     text-align: center;
     font-family: "Jomhuria";
     padding: 20px;
@@ -30,15 +30,17 @@
     justify-content:space-around;
 }
 .authmenu{
-    width: 417px;
+    width: 450px;
 }
 .menu_btn{
-    height: 30px;
+    color: #474444;
+    height: 37px;
     width: 170px;
-    margin: 0 12px;
-    font-size: 17px;
-    font-weight: bold;
+    margin: 0 25px;
+    font-size: 20px;
+    font-weight: 600;
     background-color: #FFFFFF;
-    filter: drop-shadow(0 0 15px rgb(206, 208, 255));
+    /* filter: drop-shadow(0 0 15px rgb(206, 208, 255)); */
     border: none;
+    cursor: pointer;
 }

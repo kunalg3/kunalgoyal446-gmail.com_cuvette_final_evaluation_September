@@ -1,8 +1,10 @@
 const mongoose=require('mongoose')
 
 const userSchema=mongoose.Schema({
-    firstName:String,
-    lastName:String
+    name:String,
+    email:String,
+    password:String,
+    confirm_password:String
 })
 
 const User=mongoose.model('User',userSchema)

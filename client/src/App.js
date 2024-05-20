@@ -1,7 +1,7 @@
 import './App.css';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import AuthPage from './pages/AuthPage';
-import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path='/account' element={<AuthPage/>}/>
-        <Route path='/' element={<Login/>}/>
+        <Route path='/' element={<SignUp/>}/>
       </Routes>
       </BrowserRouter>
     
