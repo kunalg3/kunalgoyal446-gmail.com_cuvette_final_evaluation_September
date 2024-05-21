@@ -16,7 +16,7 @@ function SignUp() {
     };
     const handleSubmit=(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:8000/user',formData).then((res)=>{
+        axios.post('http://localhost:8000/auth/register',formData).then((res)=>{
             console.log(res)
             alert('success')
         }).catch((err)=>{
