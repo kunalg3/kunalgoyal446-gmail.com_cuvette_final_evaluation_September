@@ -25,9 +25,8 @@ const login=async(req,res)=>{
         if (!passwordMatch) {
         return res.status(401).json({ error: 'Authentication failed' });
         }
-        const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-        expiresIn: '1h',
-        });
+        const token = jwt.sign({ userId: user._id }, 'your-secret-key', {expiresIn: '1h'});
+        
         res.status(200).json({ token });
         } catch (error) {
         res.status(500).json({ error: 'Login failed' });
