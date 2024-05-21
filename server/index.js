@@ -1,6 +1,7 @@
 const express=require('express')
-const login=require('./routes/login')
 const cors=require('cors')
+const login=require('./routes/login')
+const authRoutes =require('./routes/authRoutes')
 
 const app=express()
 
@@ -8,6 +9,7 @@ const port=8000
 
 app.use(express.json())
 app.use(cors())
+app.use('/auth',authRoutes)
 app.use('/user',login)
 
 //db connection

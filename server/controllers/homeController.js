@@ -8,22 +8,15 @@ const showUser=(req,res)=>{
         res.json({"message":err})
     })
 }
+// const createUser=(req,res)=>{
+//     const {name, email, password}=req.body
+//     const newObj=new User({name,email,password})
+//     console.log(newObj)
+//     newObj.save().then(()=>{
+//         res.json({"message":"success"})
+//     }).catch((err)=>{
+//         res.json({"message":err})
+//     })
+// }
 
-const createUser=(req,res)=>{
-    // const newObj=new User({
-    //     firstName:"pqrs",
-    //     lastName:"opal"
-    // })
-    const newObj=new User(req.body)
-    console.log(newObj)
-    newObj.save().then(()=>{
-        res.json({"message":"success"})
-    }).catch((err)=>{
-        res.json({"message":err})
-    })
-}
-
-module.exports={
-    showUser,
-    createUser
-}
+module.exports=showUser
