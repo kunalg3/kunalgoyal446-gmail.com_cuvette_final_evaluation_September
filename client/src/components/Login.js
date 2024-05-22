@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 import styles from './LogIn.module.css'
+import axios from 'axios'
+import {toast} from 'react-hot-toast'
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -10,8 +12,20 @@ function Login() {
     const handleInputChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
     };
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault()
+        try {
+            const {data}=await axios.post('http://localhost:8000/auth/login',formData)
+            if(data.error){
+                toast.error(data.error)
+            }
+            else{
+                console.log(data.token)
+                toast.success("Welcome! Login Success")
+            }
+        } catch (error) {
+            toast.error("Login Failed! Internal sever error")
+        }
     }
   return (
     <div>

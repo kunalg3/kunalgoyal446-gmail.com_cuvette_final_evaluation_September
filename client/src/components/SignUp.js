@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import styles from './SignUp.module.css'
 import axios from 'axios'
+import {toast} from 'react-hot-toast'
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -14,15 +15,21 @@ function SignUp() {
     const handleInputChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
     };
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:8000/auth/register',formData).then((res)=>{
-            console.log(res)
-            alert('success')
-        }).catch((err)=>{
-            console.log(err)
-            alert('error')
-        })
+        try {
+            const {data}= await axios.post('http://localhost:8000/auth/register',formData)
+            if(data.error){
+                toast.error(data.error)
+            }
+            else{
+                toast.success("Account registered successfully")
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error("Registration failed! Server Error")
+        }
+
     }
     
   return (
