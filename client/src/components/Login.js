@@ -3,8 +3,11 @@ import { useState } from 'react';
 import styles from './LogIn.module.css'
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate=useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -21,7 +24,10 @@ function Login() {
             }
             else{
                 console.log(data.token)
+                Cookies.set('token', data.token, { expires: 1, secure: true, sameSite: 'Strict' });
+                // localStorage.setItem('token', data.token);
                 toast.success("Welcome! Login Success")
+                navigate('/dashboard')
             }
         } catch (error) {
             toast.error("Login Failed! Internal sever error")
@@ -48,7 +54,7 @@ function Login() {
                 onChange={(e)=>handleInputChange(e)}></input>
             </div>
             
-            <button type='submit'>Log In</button>
+            <button className={styles.submit_btn} type='submit'>Log In</button>
         </form>
     </div>
   )

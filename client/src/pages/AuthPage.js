@@ -5,13 +5,13 @@ import LogIn from '../components/LogIn'
 import { useState } from 'react'
 
 function AuthPage() {
-  const [token,setToken]=useState(true);
+  const [flag,setFlag]=useState(true);
   const handleSignupForm=(e)=>{
-    setToken(false)
+    setFlag(false)
     // e.target.style.filter= 'drop-shadow(0 0 15px rgb(206, 208, 255))'
   }
   const handleLoginForm=(e)=>{
-    setToken(true)
+    setFlag(true)
     // e.target.style.filter= 'drop-shadow(0 0 15px rgb(206, 208, 255))'
   }
   // const localstyles={
@@ -24,16 +24,16 @@ function AuthPage() {
             <div className={styles.authmenuflex}>
                 <div className={styles.authmenu}>
                     <button className={styles.menu_btn} onClick={handleSignupForm} 
-                    style={token?{
+                    style={flag?{
                       filter:'none'
                     }:
                     {
-                      filter: 'drop-shadow(0 0 15px rgb(206, 208, 255))'
+                      filter: 'drop-shadow(0 0 15px rgb(183, 185, 255))'
                     }}
                     >Sign Up</button>
                     <button className={styles.menu_btn} onClick={handleLoginForm} 
-                    style={token?{
-                      filter: 'drop-shadow(0 0 15px rgb(206, 208, 255))'
+                    style={flag?{
+                      filter: 'drop-shadow(0 0 15px rgb(183, 185, 255))'
                     }:
                     {
                       filter:'none'
@@ -41,7 +41,7 @@ function AuthPage() {
                     >Log In</button>
                 </div>
             </div>
-            {token?<LogIn/>:<SignUp/>}
+            {flag?<LogIn/>:<SignUp/>}
         </div>
     </div>
   )

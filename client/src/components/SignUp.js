@@ -67,7 +67,7 @@ function SignUp() {
                 value={formData.confirm_password}
                 onChange={(e)=>handleInputChange(e)}></input>
             </div>
-            <button type='submit'>Sign-Up</button>
+            <button className={styles.submit_btn} type='submit'>Sign-Up</button>
         </form>
     </div>
   )

@@ -29,7 +29,7 @@ input{
     color: #474444;
     font-size: 20px;
 }
-button{
+.submit_btn{
     background-color: #A9BCFF;
     height: 38px;
     width: 260px;

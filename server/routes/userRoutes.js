@@ -1,7 +1,7 @@
 const express=require('express')
 const router=express.Router()
-const showUser=require('../controllers/homeController')
+const authstatus=require('../controllers/protectedController')
 
-router.get('/',showUser)
+router.get('/',authstatus)
 
 module.exports=router

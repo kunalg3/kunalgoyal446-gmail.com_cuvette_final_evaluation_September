@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+    background-color: #EDEDED;
+}
+.app_logo{
+    font-family: "Jomhuria";
+    color: #474444;
+    font-size: 70px;
+    font-weight: 400;
+    margin-left: 31px;
+    margin-top: 17px;
+}
+.menu_option{
+    color: #474444;
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-size: 20px;
+    /* margin-left: 31px; */
+    background-color: #FFFFFF;
+    border: none;
+    margin: 22px 0 22px 31px ;
+    cursor: pointer;
+}
+.menu_items{
+    position:absolute;
+    top: 35vh;
+    /* margin-top: 150px; */
+}
+.logout_btn{
+    font-weight: 700;
+    /* margin-top: 230px;
+    margin-bottom: 0; */
+    position: absolute;
+    top: 53vh;
+    width: 120px;
+    padding-top: 15px;
+    left: 0;
+    border-top: 1px solid #474444;
+    text-align: center;
+
+}
+.menubar{
+    width: 193px;
+    height: 100vh;
+    background-color: #FFFFFF;
+    filter: drop-shadow(3px 0px 0px #cfcece);
+}
+.dashboard_container{
+    /* background-color: #EDEDED; */
+    display: flex;
+}
+.selected_option{
+    filter: drop-shadow( 0 0 5px #b9b9b9);
+}
