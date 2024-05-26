@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './DashBoardPage.module.css'
+import DynamicFormModal from '../components/DynamicFormModal';
 
 function DashBoardPage() {
   const [quizdata,setQuizdata]=useState({
@@ -7,7 +8,9 @@ function DashBoardPage() {
     total_question:0,
     total_impression:0
   })
-
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
   return (
     <div className={styles.dashboard_container}>
         <div className={styles.menubar}>
@@ -15,7 +18,7 @@ function DashBoardPage() {
             <div className={styles.menu_items}>
                 <button className={`${styles.menu_option} ${styles.selected_option}`}>Dashboard</button>
                 <button className={styles.menu_option}>Analytics</button>
-                <button className={styles.menu_option}>Create Quiz</button>
+                <button className={styles.menu_option} onClick={handleShow}>Create Quiz</button>
                 <button className={`${styles.menu_option} ${styles.logout_btn}`}>LOGOUT</button>
             </div>
         </div>
@@ -46,6 +49,7 @@ function DashBoardPage() {
 
           </div>
         </div>
+        <DynamicFormModal show={showModal} handleClose={handleClose}/>
     </div>
   )
 }

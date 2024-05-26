@@ -18,7 +18,7 @@ function Login() {
     const handleSubmit=async(e)=>{
         e.preventDefault()
         try {
-            const {data}=await axios.post('http://localhost:8000/auth/login',formData)
+            const {data}=await axios.post('/auth/login',formData)
             if(data.error){
                 toast.error(data.error)
             }

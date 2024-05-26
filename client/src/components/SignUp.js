@@ -18,7 +18,7 @@ function SignUp() {
     const handleSubmit=async(e)=>{
         e.preventDefault()
         try {
-            const {data}= await axios.post('http://localhost:8000/auth/register',formData)
+            const {data}= await axios.post('/auth/register',formData)
             if(data.error){
                 toast.error(data.error)
             }
