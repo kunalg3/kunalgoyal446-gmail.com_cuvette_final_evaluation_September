@@ -20,9 +20,31 @@ function DashBoardPage() {
             </div>
         </div>
         <div className={styles.dashboard_content}>
-             <div className={styles.card}>{quizdata.total_quiz}Quiz Created</div>
-             <div className={styles.card}>{quizdata.total_question}Questions Created</div>
-             <div className={styles.card}>{quizdata.total_impression}Total Impressions</div>
+          <div className={styles.stats_container}>
+            <div className={styles.stats}>
+               <div className={styles.card}>
+                <span className={styles.no_of_quiz}>{quizdata.total_quiz}</span>
+               <span className={styles.quiz_text}>
+                Quiz Created
+                </span>
+                </div>
+               <div className={styles.card}>
+                <span className={styles.no_of_question}>{quizdata.total_question}</span>
+                <span className={styles.question_text}>
+                Questions Created
+                </span>
+                </div>
+               <div className={styles.card}>
+                <span className={styles.no_of_impression}>{quizdata.total_impression}</span>
+                <span className={styles.impression_text}>
+                Total Impressions
+                </span>
+                </div>
+            </div>
+          </div>
+          <div className={styles.trendingquiz}>
+
+          </div>
         </div>
     </div>
   )
