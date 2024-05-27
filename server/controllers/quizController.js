@@ -10,11 +10,26 @@ const quizCreate = async (req, res) => {
     }
   };
 
-const quizGet=(req,res)=>{
-    res.json({message:'I am quiz get'})
-}
+  const quizGet= async (req, res) => {
+    try {
+      const quizzes = await DynamicModel.find();
+      res.json(quizzes);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
+
+  const quizbyId=async (req, res) => {
+    try {
+      const quiz = await DynamicModel.findById(req.params.id);
+      res.json(quiz);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 
 module.exports={
     quizCreate,
-    quizGet
+    quizGet,
+    quizbyId
 }
