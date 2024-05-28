@@ -20,6 +20,7 @@ body{
     border: none;
     margin: 22px 0 22px 31px ;
     cursor: pointer;
+    
 }
 /* .menu_option:hover{
     filter: drop-shadow( 0 0 5px #b9b9b9);
@@ -47,84 +48,44 @@ body{
     height: 100vh;
     background-color: #FFFFFF;
     filter: drop-shadow(3px 0px 0px #cfcece);
+    position: fixed; /* Add this line to make the sidebar sticky */
+    top: 0; /* Ensure the sidebar stays at the top of the viewport */
+    left: 0; /* Ensure the sidebar stays at the left of the viewport */
 }
 .dashboard_container{
     /* background-color: #EDEDED; */
     display: flex;
+    margin-left: 193px;
 }
 .selected_option{
     filter: drop-shadow( 0 0 5px #b9b9b9);
 }
-.stats{
-    display: flex;
-    justify-content: space-around;
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid green;
-}
-.stats_container{
-    display: flex;
-    justify-content: center;
-    border: 3px solid black;
-    width: 86vw;
-    margin-top: 70px;
-}
-.card{
-    height: 150px;
-    width: 260px;
-    background-color: #FFFFFF;
-    /* margin: 40px; */
-    border: 1px solid black;
-    margin-top: 0;
-    margin-bottom: 0;
-    display: flex;
-    /* margin-top: 80px; */
-    align-items: flex-start;
-    font-family: 'Poppins';
-}
-.no_of_quiz{
-    font-size: 60px;
-    color: #FF5D01;
-    font-weight: 600;
-    margin-top: -180px;
-    margin: 15px;
-    margin-left: 50px;
-    margin-right: 30px;
-    /* margin-top: -80px; */
-}
-.no_of_question{
-    font-size: 60px;
-    color: #60B84B;
-    font-weight: 600;
-    margin-top: -180px;
-    margin: 15px;
-    margin-left: 50px;
-    margin-right: 30px;
-    
-}
-.no_of_impression{
-    font-size: 60px;
+.analysis_heading{
+    font-family: "Poppins";
+    font-size: 50px;
     color: #5076FF;
-    font-weight: 600;
-    margin-top: -180px;
-    margin: 15px;
-    margin-left: 50px;
-    margin-right: 30px;
-    margin-bottom: 0;
-}
-.quiz_text{
-    color: #FF5D01;
-    font-size: 30px;
+    text-align: center;
     font-weight: 600;
 }
-.question_text{
-    color: #60B84B;
-    font-size: 30px;
-    font-weight: 600;
+.analysis_container{
+    width:86vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.impression_text{
-    color: #5076FF;
-    font-size: 30px;
+.quiztable_firstrow{
+    display: flex;
+    background-color: #5076FF;
+    width: 925px;
+    border-radius: 10px;
+    height: 35px;
+    align-items: center;
+    color: #FFFFFF;
+    font-family: "Poppins";
     font-weight: 600;
+    font-size: 16px;
+    justify-content: space-between;
+}
+.quiztable_heading{
+
 }

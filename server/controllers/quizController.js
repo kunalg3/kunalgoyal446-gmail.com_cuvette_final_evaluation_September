@@ -1,6 +1,6 @@
 const DynamicModel=require('../models/DynamicModel')
 
-const quizCreate = async (req, res) => {
+  const quizCreate = async (req, res) => {
     try {
       const dynamicData = new DynamicModel(req.body);
       await dynamicData.save();
@@ -28,8 +28,23 @@ const quizCreate = async (req, res) => {
     }
   };
 
+  const quizImpression=async(req,res)=>{
+    try {
+      const quiz = await DynamicModel.findById(req.params.id);
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+      quiz.impressions += 1;
+      await quiz.save();
+      res.status(200).json({ message: 'Impressions incremented' });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  }
+
 module.exports={
     quizCreate,
     quizGet,
-    quizbyId
+    quizbyId,
+    quizImpression
 }

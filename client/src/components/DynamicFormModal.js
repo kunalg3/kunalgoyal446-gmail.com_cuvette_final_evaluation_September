@@ -2,6 +2,7 @@ import "../pages/CreateQuizPage.css";
 import styles from "./DynamicForm.module.css";
 import React, { useState } from "react";
 import axios from "axios";
+import {toast} from 'react-hot-toast'
 
 const DynamicFormModal = ({ show, handleClose }) => {
   const [quizName, setQuizName] = useState("");
@@ -166,8 +167,10 @@ const DynamicFormModal = ({ show, handleClose }) => {
 
       handleClose(); // Optionally close the modal on success
       setQuizName("");setQuestions([]);setTimerTime("OFF");setSelectedType("QnA");setOptionType("text");
+      toast.success('Submitted successfully')
     } catch (error) {
       console.error("Error:", error);
+      toast.error('Failed!')
     }
   };
 

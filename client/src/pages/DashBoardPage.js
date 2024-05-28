@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './DashBoardPage.module.css'
 import DynamicFormModal from '../components/DynamicFormModal';
+import { Link } from 'react-router-dom';
 
 function DashBoardPage() {
   const [quizdata,setQuizdata]=useState({
@@ -16,8 +17,12 @@ function DashBoardPage() {
         <div className={styles.menubar}>
             <p className={styles.app_logo}>QUIZZIE</p>
             <div className={styles.menu_items}>
-                <button className={`${styles.menu_option} ${styles.selected_option}`}>Dashboard</button>
-                <button className={styles.menu_option}>Analytics</button>
+                <Link to='/dashboard'>
+                  <button className={`${styles.menu_option} ${styles.selected_option}`}>Dashboard</button>
+                </Link>
+                <Link to='/analytics'>
+                  <button className={styles.menu_option}>Analytics</button>
+                </Link>
                 <button className={styles.menu_option} onClick={handleShow}>Create Quiz</button>
                 <button className={`${styles.menu_option} ${styles.logout_btn}`}>LOGOUT</button>
             </div>
