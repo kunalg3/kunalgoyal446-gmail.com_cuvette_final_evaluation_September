@@ -3,8 +3,9 @@ import styles from "./DynamicForm.module.css";
 import React, { useState } from "react";
 import axios from "axios";
 import {toast} from 'react-hot-toast'
+import { useEffect } from "react";
 
-const DynamicFormModal = ({ show, handleClose }) => {
+const DynamicFormModal = ({ show, handleClose, quizData }) => {
   const [quizName, setQuizName] = useState("");
   const [questions, setQuestions] = useState([]);
   const [optionType, setOptionType] = useState("text");
@@ -12,6 +13,16 @@ const DynamicFormModal = ({ show, handleClose }) => {
 
   const [selectedType, setSelectedType] = useState("QnA");
   const [timerTime, setTimerTime] = useState("OFF");
+
+  useEffect(() => {
+    if (quizData) {
+      setQuizName(quizData.name);
+      setQuestions(quizData.questions);
+      setOptionType(quizData.optionType);
+      setSelectedType(quizData.selectedType);
+      setTimerTime(quizData.timerTime);
+    }
+  }, [quizData]);
 
   const handleQnAType = () => {
     setSelectedType("QnA");
@@ -152,7 +163,7 @@ const DynamicFormModal = ({ show, handleClose }) => {
   };
 
   const handleFormSubmit = async () => {
-    const quizData = {
+    const quizPayload = {
       name: quizName,
       selectedType,
       optionType,
@@ -160,10 +171,20 @@ const DynamicFormModal = ({ show, handleClose }) => {
       timerTime,
     };
     // if(questions.length == index)
+
     console.log(quizData);
     try {
-      const response = await axios.post("/quiz",quizData);
-      console.log("Success:", response.data);
+      if (quizData) {
+        // Editing an existing quiz
+        const response = await axios.put(`/quiz/${quizData._id}`, quizPayload);
+        console.log("Quiz updated successfully:", response.data);
+      } else {
+        // Creating a new quiz
+        const response = await axios.post("/quiz", quizPayload);
+        console.log("Quiz created successfully:", response.data);
+      }
+      // const response = await axios.post("/quiz",quizData);
+      // console.log("Success:", response.data);
 
       handleClose(); // Optionally close the modal on success
       setQuizName("");setQuestions([]);setTimerTime("OFF");setSelectedType("QnA");setOptionType("text");
@@ -173,7 +194,6 @@ const DynamicFormModal = ({ show, handleClose }) => {
       toast.error('Failed!')
     }
   };
-
   return (
     <div className={`modal ${show ? "show" : ""}`}>
       <div className="modal-content">
@@ -258,7 +278,7 @@ const DynamicFormModal = ({ show, handleClose }) => {
                   <div
                     className={`${styles.tab} ${styles.One_tab} ${activeQuestion === index ? "active" : ""}`}
                   >
-                    {questions.length > 1 && index != 0 && (
+                    {questions.length > 1 && index !== 0 && (
                       <div
                         className={styles.close_question} // "delete-button"
                         onClick={() => deleteQuestion(index)}
@@ -291,7 +311,7 @@ const DynamicFormModal = ({ show, handleClose }) => {
                 >
                   <form>
                     <div className="form-group">
-                      {selectedType == "QnA" && (
+                      {selectedType === "QnA" && (
                         <input
                           className={styles.Question_name}
                           type="text"
@@ -301,7 +321,7 @@ const DynamicFormModal = ({ show, handleClose }) => {
                           placeholder="Q&A Question"
                         />
                       )}
-                      {selectedType == "Poll" && (
+                      {selectedType === "Poll" && (
                         <input
                           className={styles.Question_name}
                           type="text"
@@ -354,7 +374,7 @@ const DynamicFormModal = ({ show, handleClose }) => {
                       <div className={styles.options_container}>
                         {question.options.map((option, optionIndex) => (
                           <div className={styles.Options} key={optionIndex}>
-                            {selectedType == "QnA" && (
+                            {selectedType === "QnA" && (
                               <input
                                 className={styles.radio_button}
                                 type="radio"
@@ -533,9 +553,9 @@ const DynamicFormModal = ({ show, handleClose }) => {
               <div
                 className={styles.continue_button}
                 onClick={handleFormSubmit}
-                disabled={questions.length != 5}
+                disabled={questions.length !== 5}
               >
-                Create Quiz
+                {quizData ? "Update" : "Create"}
               </div>
             </div>
           </>

@@ -54,10 +54,26 @@ const DynamicModel=require('../models/DynamicModel')
     }
   };
 
+  const quizUpdate = async (req, res) => {
+    try {
+      const quiz = await DynamicModel.findByIdAndUpdate(req.params.id, req.body, {
+        new: true, // Return the updated document
+        runValidators: true, // Ensure the update is valid based on the schema
+      });
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+      res.status(200).json({ message: 'Quiz updated successfully', quiz });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  };
+
 module.exports={
     quizCreate,
     quizGet,
     quizbyId,
     quizImpression,
-    quizDelete
+    quizDelete,
+    quizUpdate
 }

@@ -6,8 +6,12 @@ import DynamicFormModal from '../components/DynamicFormModal';
 import toast from 'react-hot-toast';
 
 function AnalyticsPage() {
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+     setSelectedQuiz(null)
+     setShowModal(true);
+  }
   const handleClose = () => setShowModal(false);
 
   const handleQuizClick = async (quizId) => {
@@ -21,8 +25,9 @@ function AnalyticsPage() {
     }
   };
 
-  const handleEditQuiz = (quizId) => {
-    // Handle quiz edit functionality here
+  const handleEditQuiz = (quiz) => {
+    setSelectedQuiz(quiz);
+    setShowModal(true);
   };
 
   const handleDeleteQuiz = async(quizId) => {
@@ -87,7 +92,7 @@ function AnalyticsPage() {
                 <span className={styles.quiz_data}>{quiz.createdAt ? new Date(quiz.createdAt).toLocaleDateString() : 'Unknown date'}</span>
                 <span className={styles.quiz_data}>{quiz.impressions}</span>
                 <span className={styles.quiz_data}>
-                  <button className={styles.action_button} onClick={() => handleEditQuiz(quiz._id)}>Edit</button>
+                  <button className={styles.action_button} onClick={() => handleEditQuiz(quiz)}>Edit</button>
                   <button className={styles.action_button} onClick={() => handleDeleteQuiz(quiz._id)}>Delete</button>
                   <button className={styles.action_button} onClick={() => handleQuizClick(quiz._id)}>Share</button>
                 </span>
@@ -99,7 +104,7 @@ function AnalyticsPage() {
           </ul>
         </div>
       </div>
-      <DynamicFormModal show={showModal} handleClose={handleClose} />
+      <DynamicFormModal show={showModal} handleClose={handleClose} quizData={selectedQuiz} />
     </div>
   );
 }
