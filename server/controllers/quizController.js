@@ -42,9 +42,22 @@ const DynamicModel=require('../models/DynamicModel')
     }
   }
 
+  const quizDelete = async (req, res) => {
+    try {
+      const quiz = await DynamicModel.findByIdAndDelete(req.params.id);
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+      res.status(200).json({ message: 'Quiz deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  };
+
 module.exports={
     quizCreate,
     quizGet,
     quizbyId,
-    quizImpression
+    quizImpression,
+    quizDelete
 }

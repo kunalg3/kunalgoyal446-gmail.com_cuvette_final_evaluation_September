@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Jomhuria&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-body{
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+body {
     background-color: #EDEDED;
 }
-.app_logo{
+
+.app_logo {
     font-family: "Jomhuria";
     color: #474444;
     font-size: 70px;
@@ -10,30 +12,25 @@ body{
     margin-left: 31px;
     margin-top: 17px;
 }
-.menu_option{
+
+.menu_option {
     color: #474444;
     font-family: 'Poppins';
     font-weight: 600;
     font-size: 20px;
-    /* margin-left: 31px; */
     background-color: #FFFFFF;
     border: none;
-    margin: 22px 0 22px 31px ;
+    margin: 22px 0 22px 31px;
     cursor: pointer;
-    
 }
-/* .menu_option:hover{
-    filter: drop-shadow( 0 0 5px #b9b9b9);
-} */
-.menu_items{
-    position:absolute;
+
+.menu_items {
+    position: absolute;
     top: 35vh;
-    /* margin-top: 150px; */
 }
-.logout_btn{
+
+.logout_btn {
     font-weight: 700;
-    /* margin-top: 230px;
-    margin-bottom: 0; */
     position: absolute;
     top: 53vh;
     width: 120px;
@@ -41,42 +38,53 @@ body{
     left: 0;
     border-top: 1px solid #474444;
     text-align: center;
-
 }
-.menubar{
+
+.menubar {
     width: 193px;
     height: 100vh;
     background-color: #FFFFFF;
     filter: drop-shadow(3px 0px 0px #cfcece);
-    position: fixed; /* Add this line to make the sidebar sticky */
-    top: 0; /* Ensure the sidebar stays at the top of the viewport */
-    left: 0; /* Ensure the sidebar stays at the left of the viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
 }
-.dashboard_container{
-    /* background-color: #EDEDED; */
+
+.dashboard_container {
     display: flex;
     margin-left: 193px;
 }
-.selected_option{
-    filter: drop-shadow( 0 0 5px #b9b9b9);
+
+.selected_option {
+    filter: drop-shadow(0 0 5px #b9b9b9);
 }
-.analysis_heading{
+
+.analysis_heading {
     font-family: "Poppins";
     font-size: 50px;
     color: #5076FF;
     text-align: center;
     font-weight: 600;
 }
-.analysis_container{
-    width:86vw;
+
+.analysis_container {
+    width: 80vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
 }
-.quiztable_firstrow{
+
+.quiztable {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+}
+
+.quiztable_firstrow {
     display: flex;
     background-color: #5076FF;
-    width: 925px;
+    width: 100%;
     border-radius: 10px;
     height: 35px;
     align-items: center;
@@ -85,7 +93,66 @@ body{
     font-weight: 600;
     font-size: 16px;
     justify-content: space-between;
+    padding: 0 10px;
 }
-.quiztable_heading{
 
+.quiztable_heading {
+    flex: 1;
+    text-align: center;
+}
+
+.quizlist {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.quiz_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    font-family: 'Poppins';
+    font-size: 16px;
+}
+
+.row_even {
+    background-color: #E3F2FD;
+}
+
+.row_odd {
+    background-color: #FFFFFF;
+}
+
+.quiz_data {
+    flex: 1;
+    text-align: center;
+}
+
+.action_button {
+    margin: 0 2px;
+    padding: 5px 8px;
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: #5076FF;
+    color: white;
+    border-radius: 5px;
+}
+
+.action_button:hover {
+    background-color: #3B59D0;
+}
+
+.analysis_link {
+    color: #5076FF;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.analysis_link:hover {
+    text-decoration: underline;
 }
