@@ -2,25 +2,25 @@ import "../pages/CreateQuizPage.css";
 import styles from "./DynamicForm.module.css";
 import React, { useState } from "react";
 import axios from "axios";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 
 const DynamicFormModal = ({ show, handleClose, quizData }) => {
   const [quizName, setQuizName] = useState("");
   const [questions, setQuestions] = useState([]);
-  const [optionType, setOptionType] = useState("text");
+  //const [optionType, setOptionType] = useState("text");
   const [activeQuestion, setActiveQuestion] = useState(0);
 
   const [selectedType, setSelectedType] = useState("QnA");
-  const [timerTime, setTimerTime] = useState("OFF");
+  const [timerTime, setTimerTime] = useState(0);
 
   useEffect(() => {
     if (quizData) {
       setQuizName(quizData.name);
       setQuestions(quizData.questions);
-      setOptionType(quizData.optionType);
+      //setOptionType(quizData.optionType);
       setSelectedType(quizData.selectedType);
-      setTimerTime(quizData.timerTime);
+      // setTimerTime(quizData.timerTime);
     }
   }, [quizData]);
 
@@ -30,15 +30,15 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
   const handlePollType = () => {
     setSelectedType("Poll");
   };
-  const setTimerOff = () => {
-    setTimerTime("OFF");
-  };
-  const set5SecTimer = () => {
-    setTimerTime("5Sec");
-  };
-  const set10SecTimer = () => {
-    setTimerTime("10Sec");
-  };
+  // const setTimerOff = () => {
+  //   setTimerTime("OFF");
+  // };
+  // const set5SecTimer = () => {
+  //   setTimerTime("5Sec");
+  // };
+  // const set10SecTimer = () => {
+  //   setTimerTime("10Sec");
+  // };
 
   const addQuestion = () => {
     if (questions.length < 5) {
@@ -47,17 +47,24 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
         {
           id: questions.length + 1,
           name: "",
+          OptionType: 0,
           options: [
             {
               text: "",
               image: "",
+              attempt:0,
             },
             {
               text: "",
               image: "",
+              attempt:0,
             },
           ],
           correctOption: 0,
+          time: 0,
+          correctClicked:0,
+          wrongClicked:0,
+          Attempt:0,
         },
       ]);
       setActiveQuestion(questions.length);
@@ -144,15 +151,41 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
     );
     setQuestions(newQuestions);
   };
-  const handleTextOptionType = () => {
-    setOptionType("text");
+  const handleOptionTypeChange = (index, e) => {
+    const newQuestions = questions.map((question, i) =>
+      i === index
+        ? { ...question, OptionType: parseInt(e.target.value) }
+        : question,
+    );
+    setQuestions(newQuestions);
   };
-  const handleImageOptionType = () => {
-    setOptionType("Image");
+  const handleOffTimerChange = (index, e) => {
+    const newQuestions = questions.map((question, i) =>
+      i === index ? { ...question, time: 0 } : question,
+    );
+    setQuestions(newQuestions);
   };
-  const handleText_ImageOptionType = () => {
-    setOptionType("text&Image");
+  const handle5secTimerChange = (index, e) => {
+    const newQuestions = questions.map((question, i) =>
+      i === index ? { ...question, time: 5 } : question,
+    );
+    setQuestions(newQuestions);
   };
+  const handle10secTimerChange = (index, e) => {
+    const newQuestions = questions.map((question, i) =>
+      i === index ? { ...question, time: 10 } : question,
+    );
+    setQuestions(newQuestions);
+  };
+  // const handleTextOptionType = () => {
+  //   setOptionType("text");
+  // };
+  // const handleImageOptionType = () => {
+  //   setOptionType("Image");
+  // };
+  // const handleText_ImageOptionType = () => {
+  //   setOptionType("text&Image");
+  // };
   const handleCorrectOptionChange = (index, event) => {
     const newQuestions = questions.map((question, i) =>
       i === index
@@ -166,9 +199,9 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
     const quizPayload = {
       name: quizName,
       selectedType,
-      optionType,
+      // optionType,
       questions,
-      timerTime,
+      // timerTime,
     };
     // if(questions.length == index)
 
@@ -187,11 +220,15 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
       // console.log("Success:", response.data);
 
       handleClose(); // Optionally close the modal on success
-      setQuizName("");setQuestions([]);setTimerTime("OFF");setSelectedType("QnA");setOptionType("text");
-      toast.success('Submitted successfully')
+      setQuizName("");
+      setQuestions([]);
+      // setTimerTime("OFF");
+      setSelectedType("QnA");
+      // setOptionType("text");
+      toast.success("Submitted successfully");
     } catch (error) {
       console.error("Error:", error);
-      toast.error('Failed!')
+      toast.error("Failed!");
     }
   };
   return (
@@ -217,7 +254,7 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                 onClick={handleQnAType}
                 style={
                   selectedType === "QnA"
-                    ? { "backgroundColor": "#60b84b", color: "white" }
+                    ? { backgroundColor: "#60b84b", color: "white" }
                     : {}
                 }
               >
@@ -229,7 +266,7 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                 onClick={handlePollType}
                 style={
                   selectedType === "Poll"
-                    ? { "backgroundColor": "#60b84b", color: "white" }
+                    ? { backgroundColor: "#60b84b", color: "white" }
                     : {}
                 }
               >
@@ -245,19 +282,26 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                 onClick={() =>
                   setQuestions([
                     {
-                      id: 1,
+                      id: questions.length + 1,
                       name: "",
+                      OptionType: 0,
                       options: [
                         {
                           text: "",
                           image: "",
+                          attempt:0,
                         },
                         {
                           text: "",
                           image: "",
+                          attempt:0,
                         },
                       ],
                       correctOption: 0,
+                      time: 0,
+                      correctClicked:0,
+                      wrongClicked:0,
+                      Attempt:0,  
                     },
                   ])
                 }
@@ -341,9 +385,12 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                         <div className={styles.option_type}>
                           <input
                             type="radio"
+                            id={`optionTypeText${index}`}
+                            name={`optionType${index}`}
                             value={0}
-                            checked={optionType === "text"}
-                            onChange={handleTextOptionType}
+                            checked={question.OptionType === 0}
+                            onChange={(e) => handleOptionTypeChange(index, e)}
+                            // onChange={handleTextOptionType}
                           />
                           <div className={styles.option_One}>Text</div>
                         </div>
@@ -351,18 +398,24 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                         <div className={styles.option_type}>
                           <input
                             type="radio"
+                            id={`optionTypeText${index}`}
+                            name={`optionType${index}`}
                             value={1}
-                            checked={optionType === "Image"}
-                            onChange={handleImageOptionType}
+                            checked={question.OptionType === 1}
+                            onChange={(e) => handleOptionTypeChange(index, e)}
+                            //onChange={handleImageOptionType}
                           />
                           <div className={styles.option_One}>Image URL</div>
                         </div>
                         <div className={styles.option_type}>
                           <input
                             type="radio"
+                            id={`optionTypeText${index}`}
+                            name={`optionType${index}`}
                             value={2}
-                            checked={optionType === "text&Image"}
-                            onChange={handleText_ImageOptionType}
+                            checked={question.OptionType === 2}
+                            onChange={(e) => handleOptionTypeChange(index, e)}
+                            // onChange={handleText_ImageOptionType}
                           />
                           <div className={styles.option_One}>
                             Text & Image URL
@@ -387,12 +440,13 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                                 }
                               />
                             )}
-                            {optionType === "text" && (
+                            {question.OptionType === 0 && (
                               <input
                                 style={
-                                  question.correctOption === optionIndex
+                                  question.correctOption === optionIndex &&
+                                  selectedType == "QnA"
                                     ? {
-                                        "backgroundColor": "#60b84b",
+                                        backgroundColor: "#60b84b",
                                         color: "white",
                                       }
                                     : {}
@@ -408,12 +462,12 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                                 `}
                               />
                             )}
-                            {optionType === "Image" && (
+                            {question.OptionType === 1 && (
                               <input
                                 style={
                                   question.correctOption === optionIndex
                                     ? {
-                                        "backgroundColor": "#60b84b",
+                                        backgroundColor: "#60b84b",
                                         color: "white",
                                       }
                                     : {}
@@ -428,13 +482,13 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                                 placeholder="Image URL"
                               />
                             )}
-                            {optionType === "text&Image" && (
+                            {question.OptionType === 2 && (
                               <>
                                 <input
                                   style={
                                     question.correctOption === optionIndex
                                       ? {
-                                          "backgroundColor": "#60b84b",
+                                          backgroundColor: "#60b84b",
                                           color: "white",
                                         }
                                       : {}
@@ -456,7 +510,7 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                                   style={
                                     question.correctOption === optionIndex
                                       ? {
-                                          "backgroundColor": "#60b84b",
+                                          backgroundColor: "#60b84b",
                                           color: "white",
                                         }
                                       : {}
@@ -492,11 +546,12 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                           <div className={`${styles.timer_header} `}>Timer</div>
                           <div
                             className={`${styles.timer_button} ${styles.button}`}
-                            onClick={setTimerOff}
+                            onClick={(e) => handleOffTimerChange(index, e)}
+                            value={0}
                             style={
-                              timerTime === "OFF"
+                              question.time === 0
                                 ? {
-                                    "backgroundColor": "#D60000",
+                                    backgroundColor: "#D60000",
                                     color: "white",
                                   }
                                 : {}
@@ -506,11 +561,12 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                           </div>
                           <div
                             className={`${styles.timer_button} ${styles.button}`}
-                            onClick={set5SecTimer}
+                            onClick={(e) => handle5secTimerChange(index, e)}
+                            value={5}
                             style={
-                              timerTime === "5Sec"
+                              question.time === 5
                                 ? {
-                                    "backgroundColor": "#D60000",
+                                    backgroundColor: "#D60000",
                                     color: "white",
                                   }
                                 : {}
@@ -520,11 +576,12 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                           </div>
                           <div
                             className={`${styles.timer_button} ${styles.button}`}
-                            onClick={set10SecTimer}
+                            onClick={(e) => handle10secTimerChange(index, e)}
+                            value={10}
                             style={
-                              timerTime === "10Sec"
+                              question.time === 10
                                 ? {
-                                    "backgroundColor": "#D60000",
+                                    backgroundColor: "#D60000",
                                     color: "white",
                                   }
                                 : {}

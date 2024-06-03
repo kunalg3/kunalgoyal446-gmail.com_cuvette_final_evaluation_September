@@ -3,6 +3,7 @@ import { useState } from 'react'
 import styles from './SignUp.module.css'
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function SignUp() {
         confirm_password:'',
         });
        
+    const navigate=useNavigate();
     const handleInputChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
     };
@@ -24,6 +26,7 @@ function SignUp() {
             }
             else{
                 toast.success("Account registered successfully")
+                navigate('/')
             }
         } catch (error) {
             console.log(error)

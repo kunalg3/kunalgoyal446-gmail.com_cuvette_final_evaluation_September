@@ -69,11 +69,31 @@ const DynamicModel=require('../models/DynamicModel')
     }
   };
 
+  const quizReportAdd=async(req,res)=>{
+    try {
+      const quiz= await DynamicModel.findByIdAndUpdate(req.body.params,
+        {
+          $set: {
+            correctClicks,
+            incorrectClicks,
+            attempts
+          }
+        },
+      {new:true}
+      )
+      console.log('added report successfully', quiz);
+      res.status(200).json({ message: 'Quiz report added successfully', quiz })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  }
+
 module.exports={
     quizCreate,
     quizGet,
     quizbyId,
     quizImpression,
     quizDelete,
-    quizUpdate
+    quizUpdate,
+    quizReportAdd
 }

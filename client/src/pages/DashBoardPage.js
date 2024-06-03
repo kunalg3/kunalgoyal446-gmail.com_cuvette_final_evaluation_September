@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './DashBoardPage.module.css'
 import DynamicFormModal from '../components/DynamicFormModal';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function DashBoardPage() {
   const [quizdata,setQuizdata]=useState({
@@ -12,6 +13,13 @@ function DashBoardPage() {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
+
+  const navigate=useNavigate();
+  const handlelogout=()=>{
+    localStorage.removeItem("JWT")
+    navigate("/")
+  }
+
   return (
     <div className={styles.dashboard_container}>
         <div className={styles.menubar}>
@@ -24,7 +32,7 @@ function DashBoardPage() {
                   <button className={styles.menu_option}>Analytics</button>
                 </Link>
                 <button className={styles.menu_option} onClick={handleShow}>Create Quiz</button>
-                <button className={`${styles.menu_option} ${styles.logout_btn}`}>LOGOUT</button>
+                <button className={`${styles.menu_option} ${styles.logout_btn}`} onClick={handlelogout}>LOGOUT</button>
             </div>
         </div>
         <div className={styles.dashboard_content}>

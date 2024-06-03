@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './AnalyticsPage.module.css';
 import DynamicFormModal from '../components/DynamicFormModal';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function AnalyticsPage() {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
@@ -55,6 +56,13 @@ function AnalyticsPage() {
     fetchQuizzes();
   }, []);
 
+
+  const navigate=useNavigate();
+  const handlelogout=()=>{
+    localStorage.removeItem("JWT")
+    navigate("/")
+  }
+
   return (
     <div className={styles.dashboard_container}>
       <div className={styles.menubar}>
@@ -67,7 +75,7 @@ function AnalyticsPage() {
             <button className={`${styles.menu_option} ${styles.selected_option}`}>Analytics</button>
           </Link>
           <button className={styles.menu_option} onClick={handleShow}>Create Quiz</button>
-          <button className={`${styles.menu_option} ${styles.logout_btn}`}>LOGOUT</button>
+          <button className={`${styles.menu_option} ${styles.logout_btn}`} onClick={handlelogout}>LOGOUT</button>
         </div>
       </div>
       <div className={styles.analysis_container}>

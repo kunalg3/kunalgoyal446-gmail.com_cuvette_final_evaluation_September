@@ -23,10 +23,10 @@ function Login() {
                 toast.error(data.error)
             }
             else{
-                console.log(data.token)
-                Cookies.set('token', data.token, { expires: 1, secure: true, sameSite: 'Strict' });
-                // localStorage.setItem('token', data.token);
+                // Cookies.set('token', data.token, { expires: 1, secure: true, sameSite: 'Strict' });
+                console.log('token=',data.token)
                 toast.success("Welcome! Login Success")
+                localStorage.setItem('JWT',data.token);
                 navigate('/dashboard')
             }
         } catch (error) {
