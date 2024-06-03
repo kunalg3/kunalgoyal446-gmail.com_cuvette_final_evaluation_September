@@ -6,7 +6,7 @@ import {toast} from 'react-hot-toast'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function LogIn() {
     const navigate=useNavigate();
     const [formData, setFormData] = useState({
         email: '',
@@ -60,4 +60,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LogIn
