@@ -10,7 +10,7 @@ import axios from 'axios'
 import ProtectedRoutes from './components/ProtectedRoutes';
 import QuizAnalysisPage from './pages/QuizAnalysisPage';
 
-axios.defaults.baseURL='http://localhost:8000'
+axios.defaults.baseURL='https://quiz-app-server-1.onrender.com'
 axios.defaults.withCredentials=true;
 
 function App() {

@@ -73,6 +73,8 @@
     margin: auto;
     font-family: 'Poppins';
     font-weight: 700;
+    background-color: #FFFFFF;
+    height: 100vh;
 }
 .score{
     color:green;
@@ -87,6 +89,7 @@
     font-weight: 600;
     font-family:'Poppins';
     left :100px
+    
 }
 .nextbtn{
     display: flex;
