@@ -115,14 +115,18 @@ body {
     padding: 10px 10px;
     font-family: 'Poppins';
     font-size: 16px;
+    height: 30px;
+    font-weight: 600;
+    /* width: 1000px; */
 }
 
 .row_even {
-    background-color: #E3F2FD;
+    background-color: #B3C4FF;
+    border-radius: 15px;
 }
 
 .row_odd {
-    background-color: #FFFFFF;
+    background-color: #EDEDED;
 }
 
 .quiz_data {
@@ -138,21 +142,23 @@ body {
     font-size: 14px;
     border: none;
     cursor: pointer;
-    background-color: #5076FF;
+    /* background-color: #5076FF; */
     color: white;
     border-radius: 5px;
 }
 
 .action_button:hover {
-    background-color: #3B59D0;
+    background-color: #c2cbf1;
 }
 
 .analysis_link {
-    color: #5076FF;
+    /* color: #5076FF; */
     font-weight: 600;
-    text-decoration: none;
+    width: 200px;
+    color: black;
+    /* text-decoration: none; */
 }
 
-.analysis_link:hover {
+/* .analysis_link:hover {
     text-decoration: underline;
-}
+} */

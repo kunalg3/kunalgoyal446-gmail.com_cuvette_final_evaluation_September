@@ -5,14 +5,23 @@ import styles from './AnalyticsPage.module.css';
 import DynamicFormModal from '../components/DynamicFormModal';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import editicon from "../assets/uil_edit.svg"
+import deleteicon from '../assets/material-symbols_delete.svg'
+import shareicon from '../assets/material-symbols_share.svg'
+import ConfirmationModal from '../components/ConfirmationModal'; // Import ConfirmationModal component
 
 function AnalyticsPage() {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [quizToDelete, setQuizToDelete] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State to control modal visibility
+  const [deleteMessage, setDeleteMessage] = useState(""); // State to set the delete confirmation message
+
   const handleShow = () => {
-     setSelectedQuiz(null)
-     setShowModal(true);
+    setSelectedQuiz(null)
+    setShowModal(true);
   }
+
   const handleClose = () => setShowModal(false);
 
   const handleQuizClick = async (quizId) => {
@@ -31,7 +40,7 @@ function AnalyticsPage() {
     setShowModal(true);
   };
 
-  const handleDeleteQuiz = async(quizId) => {
+  const handleDeleteQuiz = async (quizId) => {
     try {
       await axios.delete(`/quiz/${quizId}`);
       toast.success('Quiz deleted successfully!');
@@ -40,6 +49,22 @@ function AnalyticsPage() {
       console.error('Failed to delete the quiz:', error);
       toast.error('Failed to delete the quiz. Please try again.');
     }
+  };
+
+  const handleDeleteConfirmation = (quizId, quizName) => {
+    setQuizToDelete(quizId);
+    setDeleteMessage(`Are you confirm you want to delete?`);
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleDeleteConfirmationClose = () => {
+    setQuizToDelete(null);
+    setShowDeleteConfirmation(false);
+  };
+
+  const handleDeleteConfirmationConfirm = () => {
+    handleDeleteQuiz(quizToDelete);
+    setShowDeleteConfirmation(false);
   };
 
   const [quizzes, setQuizzes] = useState([]);
@@ -56,9 +81,8 @@ function AnalyticsPage() {
     fetchQuizzes();
   }, []);
 
-
-  const navigate=useNavigate();
-  const handlelogout=()=>{
+  const navigate = useNavigate();
+  const handlelogout = () => {
     localStorage.removeItem("JWT")
     navigate("/")
   }
@@ -93,19 +117,19 @@ function AnalyticsPage() {
             {quizzes.map((quiz, index) => (
               <li
                 key={quiz._id}
-                className={`${styles.quiz_row} ${index % 2 === 0 ? styles.row_even : styles.row_odd}`}
+                className={`${styles.quiz_row} ${index % 2 === 0 ? styles.row_odd : styles.row_even}`}
               >
                 <span className={styles.quiz_data}>{index + 1}</span>
                 <span className={styles.quiz_data}>{quiz.name}</span>
                 <span className={styles.quiz_data}>{quiz.createdAt ? new Date(quiz.createdAt).toLocaleDateString() : 'Unknown date'}</span>
                 <span className={styles.quiz_data}>{quiz.impressions}</span>
                 <span className={styles.quiz_data}>
-                  <button className={styles.action_button} onClick={() => handleEditQuiz(quiz)}>Edit</button>
-                  <button className={styles.action_button} onClick={() => handleDeleteQuiz(quiz._id)}>Delete</button>
-                  <button className={styles.action_button} onClick={() => handleQuizClick(quiz._id)}>Share</button>
+                  <img src={editicon} alt='edit' className={styles.action_button} onClick={() => handleEditQuiz(quiz)} />
+                  <img src={deleteicon} alt='delete' className={styles.action_button} onClick={() => handleDeleteConfirmation(quiz._id, quiz.name)} />
+                  <img src={shareicon} alt='share' className={styles.action_button} onClick={() => handleQuizClick(quiz._id)} />
                 </span>
                 <span className={styles.quiz_data}>
-                  <Link to={`/quiz-analysis/${quiz._id}`} className={styles.analysis_link}>Analysis</Link>
+                  <Link to={`/quiz-analysis/${quiz._id}`} className={styles.analysis_link}>Question wise Analysis</Link>
                 </span>
               </li>
             ))}
@@ -113,6 +137,12 @@ function AnalyticsPage() {
         </div>
       </div>
       <DynamicFormModal show={showModal} handleClose={handleClose} quizData={selectedQuiz} />
+      <ConfirmationModal
+        isOpen={showDeleteConfirmation}
+        onClose={handleDeleteConfirmationClose}
+        onConfirm={handleDeleteConfirmationConfirm}
+        message={deleteMessage}
+      />
     </div>
   );
 }

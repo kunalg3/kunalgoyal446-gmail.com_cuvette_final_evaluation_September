@@ -69,24 +69,107 @@ const DynamicModel=require('../models/DynamicModel')
     }
   };
 
-  const quizReportAdd=async(req,res)=>{
+  const quizReportAdd = async (req, res) => {
     try {
-      const quiz= await DynamicModel.findByIdAndUpdate(req.body.params,
-        {
-          $set: {
-            correctClicks,
-            incorrectClicks,
-            attempts
+      const { correctClicks, incorrectClicks, attempts } = req.body;
+      const quiz = await DynamicModel.findById(req.params.id);
+  
+      if (!quiz) {
+        return res.status(404).send('Quiz not found');
+      }
+  
+      quiz.questions.forEach((question, index) => {
+        if (attempts[index]) {
+          question.Attempt += attempts[index];
+          
+          if (correctClicks) {
+            question.correctClicked += correctClicks[index] || 0;
           }
-        },
-      {new:true}
-      )
-      console.log('added report successfully', quiz);
-      res.status(200).json({ message: 'Quiz report added successfully', quiz })
+          
+          if (incorrectClicks) {
+            question.wrongClicked += incorrectClicks[index] || 0;
+          }
+  
+          question.options.forEach((option, optIndex) => {
+            if (correctClicks) {
+              option.correctClicked = option.correctClicked || 0; // Initialize if not set
+              if (optIndex === question.correctOption) {
+                option.correctClicked += correctClicks[index] || 0;
+              }
+            }
+  
+            if (incorrectClicks) {
+              option.wrongClicked = option.wrongClicked || 0; // Initialize if not set
+              if (optIndex !== question.correctOption) {
+                option.wrongClicked += incorrectClicks[index] || 0;
+              }
+            }
+  
+            option.attempt = option.attempt || 0; // Initialize if not set
+            option.attempt += attempts[index];
+          });
+        }
+      });
+  
+      await quiz.save();
+      res.send('Quiz report updated successfully');
+    } catch (error) {
+      console.error('Error updating quiz report:', error);
+      res.status(500).send('Internal server error');
+    }
+  };
+  
+  const getQuizStatistics = async (req, res) => {
+    try {
+      const quizzes = await DynamicModel.find();
+      const totalQuizzes = quizzes.length;
+      const totalQuestions = quizzes.reduce((acc, quiz) => acc + (quiz.questions ? quiz.questions.length : 0), 0);
+      const totalImpressions = quizzes.reduce((acc, quiz) => acc + (quiz.impressions || 0), 0);
+  
+      res.json({
+        // quizzes:"hello"
+        totalQuizzes,
+        totalQuestions,
+        totalImpressions
+      });
     } catch (error) {
       res.status(500).json({ message: 'Internal server error', error });
     }
-  }
+  };
+  
+  const getTrendingQuizzes = async (req, res) => {
+    try {
+      const quizzes = await DynamicModel.find({ impressions: { $gt: 10 } }).sort({ impressions: -1 });
+      res.json(quizzes);
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  };
+
+  const getQuizAnalysis = async (req, res) => {
+    try {
+        const quiz = await DynamicModel.findById(req.params.id);
+        if (!quiz) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        const analytics = quiz.questions.map((question) => ({
+            question: question.name,
+            correctClicks: question.correctClicked,
+            wrongClicks: question.wrongClicked,
+            attempts: question.Attempt,
+            options: question.options.map((option) => ({
+                text: option.text,
+                image: option.image,
+                attempts: option.attempt
+            }))
+        }));
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+  };
 
 module.exports={
     quizCreate,
@@ -95,5 +178,8 @@ module.exports={
     quizImpression,
     quizDelete,
     quizUpdate,
-    quizReportAdd
+    quizReportAdd,
+    getQuizStatistics,
+    getTrendingQuizzes,
+    getQuizAnalysis
 }
