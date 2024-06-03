@@ -52,19 +52,17 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
             {
               text: "",
               image: "",
-              attempt:0,
             },
             {
               text: "",
               image: "",
-              attempt:0,
             },
           ],
           correctOption: 0,
           time: 0,
-          correctClicked:{},
-          wrongClicked:{},
-          Attempt:{},
+          // correctClicked:{},
+          // wrongClicked:{},
+          // Attempt:{},
         },
       ]);
       setActiveQuestion(questions.length);
@@ -289,19 +287,17 @@ const DynamicFormModal = ({ show, handleClose, quizData }) => {
                         {
                           text: "",
                           image: "",
-                          attempt:0,
                         },
                         {
                           text: "",
                           image: "",
-                          attempt:0,
                         },
                       ],
                       correctOption: 0,
                       time: 0,
-                      correctClicked:{},
-                      wrongClicked:{},
-                      Attempt:{},  
+                      // correctClicked:{},
+                      // wrongClicked:{},
+                      // Attempt:{},  
                     },
                   ])
                 }

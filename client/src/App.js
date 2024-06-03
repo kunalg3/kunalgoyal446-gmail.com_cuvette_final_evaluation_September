@@ -8,6 +8,7 @@ import AnalyticsPage from './pages/AnalyticsPage'
 import TestPage from './pages/TestPage';
 import axios from 'axios'
 import ProtectedRoutes from './components/ProtectedRoutes';
+import QuizAnalysisPage from './pages/QuizAnalysisPage';
 
 axios.defaults.baseURL='http://localhost:8000'
 axios.defaults.withCredentials=true;
@@ -27,6 +28,7 @@ function App() {
           <Route path='/analytics' element={<AnalyticsPage/>}/>
         </Route>
         <Route path='/quiz/:id' element={<TestPage/>}/>
+        <Route path='/quiz-analysis/:id' element={<QuizAnalysisPage/>}/>
       </Routes>
       </BrowserRouter>
     

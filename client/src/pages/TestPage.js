@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import styles from './TestPage.module.css';
+import trophy from '../assets/image 2.jpg'
 
 const TestPage = () => {
   const { id } = useParams();
@@ -11,10 +12,8 @@ const TestPage = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [correctClicks, setCorrectClicks] = useState({});
-  const [incorrectClicks, setIncorrectClicks] = useState({});
-  const [attempts, setAttempts] = useState({});
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [quizType ,setQuizType]=useState("");
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -22,8 +21,9 @@ const TestPage = () => {
         const response = await axios.get(`/quiz/${id}`);
         const data = response.data;
         setQuizData(data);
-        if (data.questions.length > 0) {
-          setTimeLeft(parseInt(data.questions[0].time));
+        setQuizType(data.selectedType);
+        if (data.questions.length > 0 && data.questions[0].time > 0) {
+          setTimeLeft(data.questions[0].time);
         }
       } catch (error) {
         console.error('Error fetching quiz data:', error);
@@ -48,31 +48,13 @@ const TestPage = () => {
         setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
       }, 1000);
       return () => clearInterval(timer);
-    } else if (timeLeft === 0 && quizData && !quizCompleted) {
+    } else if (timeLeft === 0 && quizData && quizData.questions[currentQuestionIndex].time > 0) {
       handleNextQuestion();
     }
-  }, [timeLeft, quizData, quizCompleted]);
+  }, [timeLeft, quizData, currentQuestionIndex]);
 
   const handleOptionSelect = (index) => {
     setSelectedOption(index);
-    const currentQuestion = quizData.questions[currentQuestionIndex];
-
-    setAttempts(prevAttempts => ({
-      ...prevAttempts,
-      [currentQuestionIndex]: (prevAttempts[currentQuestionIndex] || 0) + 1
-    }));
-
-    if (index === currentQuestion.correctOption) {
-      setCorrectClicks(prevCorrectClicks => ({
-        ...prevCorrectClicks,
-        [currentQuestionIndex]: (prevCorrectClicks[currentQuestionIndex] || 0) + 1
-      }));
-    } else {
-      setIncorrectClicks(prevIncorrectClicks => ({
-        ...prevIncorrectClicks,
-        [currentQuestionIndex]: (prevIncorrectClicks[currentQuestionIndex] || 0) + 1
-      }));
-    }
   };
 
   const handleNextQuestion = () => {
@@ -84,7 +66,12 @@ const TestPage = () => {
 
     if (currentQuestionIndex + 1 < quizData.questions.length) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-      setTimeLeft(parseInt(quizData.questions[currentQuestionIndex + 1].time));
+      const nextQuestion = quizData.questions[currentQuestionIndex + 1];
+      if (nextQuestion.time > 0) {
+        setTimeLeft(nextQuestion.time);
+      } else {
+        setTimeLeft(0);
+      }
     } else {
       setQuizCompleted(true);
       handleSubmitReport();
@@ -92,15 +79,8 @@ const TestPage = () => {
   };
 
   const handleSubmitReport = async () => {
-    const report = {
-      correctClicks,
-      incorrectClicks,
-      attempts
-    };
-    console.log(report);
     try {
-      await axios.put(`/quiz/${id}/reportadd`, report);
-      console.log('Submitted successfully');
+      await axios.put(`/quiz/${id}/reportadd`, { score });
       toast.success('Submitted successfully');
     } catch (error) {
       console.error('Error submitting quiz report:', error);
@@ -113,7 +93,12 @@ const TestPage = () => {
   }
 
   if (quizCompleted) {
-    return <div>Quiz completed! Your score is: {score} out of {quizData.questions.length}</div>;
+    if(quizType==="QnA"){
+      return <div className={styles.QnACompleted}><div>Congrats Quiz completed!</div> <img src={trophy} alt='trophy'/><div>Your score is: <div className={styles.score}> {score}/ {quizData.questions.length}</div></div></div>;
+    }else{
+      return <div className={styles.pollCompleted}>Thank you for Participating in the Poll</div>;
+    }
+   
   }
 
   const currentQuestion = quizData.questions[currentQuestionIndex];
@@ -122,8 +107,8 @@ const TestPage = () => {
     <div className={styles.background}>
       <div className={styles.test_container}>
         <div className={styles.s_no_container}>
-          <span>{quizData.name}</span>
-          <span className={styles.timer}>{timeLeft}s</span>
+          <span>{currentQuestion.id}/{quizData.questions.length}</span>
+          {currentQuestion.time > 0 && <span className={styles.timer}>{timeLeft}s</span>}
         </div>
         <div className={styles.question}>
           <h3 className={styles.question_name}>{currentQuestion.name}</h3>
@@ -135,11 +120,12 @@ const TestPage = () => {
                 className={`${styles.option} ${selectedOption === index ? styles.selected : ''}`}
               >
                 {option.text}
+                {option.image && <img src={option.image} alt="option" className={styles.option_image} />}
               </div>
             ))}
           </div>
         </div>
-        <button onClick={handleNextQuestion}>Next</button>
+        <div className={styles.nextbtn}><button className={styles.testNextButton} onClick={handleNextQuestion}>Next</button></div>
       </div>
     </div>
   );

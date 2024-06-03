@@ -71,53 +71,56 @@ const DynamicModel=require('../models/DynamicModel')
 
   const quizReportAdd = async (req, res) => {
     try {
-      const { correctClicks, incorrectClicks, attempts } = req.body;
-      const quiz = await DynamicModel.findById(req.params.id);
+      // const { correctClicks, incorrectClicks, attempts } = req.body;
+      // const quiz = await DynamicModel.findById(req.params.id);
   
-      if (!quiz) {
-        return res.status(404).send('Quiz not found');
-      }
+      // if (!quiz) {
+      //   return res.status(404).send('Quiz not found');
+      // }
   
-      quiz.questions.forEach((question, index) => {
-        if (attempts[index]) {
-          question.Attempt += attempts[index];
-          
-          if (correctClicks) {
-            question.correctClicked += correctClicks[index] || 0;
-          }
-          
-          if (incorrectClicks) {
-            question.wrongClicked += incorrectClicks[index] || 0;
-          }
+      // quiz.questions.forEach((question, index) => {
+      //   if (attempts[index]) {
+      //     question.Attempt += attempts[index];
   
-          question.options.forEach((option, optIndex) => {
-            if (correctClicks) {
-              option.correctClicked = option.correctClicked || 0; // Initialize if not set
-              if (optIndex === question.correctOption) {
-                option.correctClicked += correctClicks[index] || 0;
-              }
-            }
+      //     if (correctClicks) {
+      //       question.correctClicked += correctClicks[index] || 0;
+      //     }
   
-            if (incorrectClicks) {
-              option.wrongClicked = option.wrongClicked || 0; // Initialize if not set
-              if (optIndex !== question.correctOption) {
-                option.wrongClicked += incorrectClicks[index] || 0;
-              }
-            }
+      //     if (incorrectClicks) {
+      //       question.wrongClicked += incorrectClicks[index] || 0;
+      //     }
   
-            option.attempt = option.attempt || 0; // Initialize if not set
-            option.attempt += attempts[index];
-          });
-        }
-      });
+      //     question.options.forEach((option, optIndex) => {
+      //       if (correctClicks) {
+      //         option.correctClicked = option.correctClicked || 0;
+      //         if (optIndex === question.correctOption) {
+      //           option.correctClicked += correctClicks[index] || 0;
+      //         }
+      //       }
   
-      await quiz.save();
-      res.send('Quiz report updated successfully');
+      //       if (incorrectClicks) {
+      //         option.wrongClicked = option.wrongClicked || 0;
+      //         if (optIndex !== question.correctOption) {
+      //           option.wrongClicked += incorrectClicks[index] || 0;
+      //         }
+      //       }
+  
+      //       option.attempt = option.attempt || 0;
+      //       option.attempt += attempts[index];
+      //     });
+      //   }
+      // });
+  
+      // await quiz.save();
+      // res.send('Quiz report updated successfully');
+      const {score}=req.body
+      res.send('quiz submitted successfully')
     } catch (error) {
       console.error('Error updating quiz report:', error);
       res.status(500).send('Internal server error');
     }
   };
+  
   
   const getQuizStatistics = async (req, res) => {
     try {
@@ -148,26 +151,21 @@ const DynamicModel=require('../models/DynamicModel')
 
   const getQuizAnalysis = async (req, res) => {
     try {
-        const quiz = await DynamicModel.findById(req.params.id);
-        if (!quiz) {
-            return res.status(404).json({ message: 'Quiz not found' });
-        }
-
-        const analytics = quiz.questions.map((question) => ({
-            question: question.name,
-            correctClicks: question.correctClicked,
-            wrongClicks: question.wrongClicked,
-            attempts: question.Attempt,
-            options: question.options.map((option) => ({
-                text: option.text,
-                image: option.image,
-                attempts: option.attempt
-            }))
-        }));
-
-        res.json(analytics);
+      const quiz = await DynamicModel.findById(req.params.id);
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+  
+      const analytics = quiz.questions.map((question) => ({
+        question: question.name,
+        correctClicks: question.correctClicked,
+        wrongClicks: question.wrongClicked,
+        attempts: question.Attempt,
+      }));
+  
+      res.json(analytics);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error', error });
+      res.status(500).json({ message: 'Internal server error', error });
     }
   };
 

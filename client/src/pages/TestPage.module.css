@@ -30,13 +30,14 @@
     text-align: center;
 }
 .question_options{
-    display: flex;
+    display: grid;
     height: 250px;
     width: 750px;
     font-size: 35px;
     font-weight: 600;
     /* background-color: aquamarine; */
     justify-content: space-around;
+    grid-template-columns: auto auto;
 }
 .timer{
     color: #D60000;
@@ -55,4 +56,40 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 20px;
+}
+.option img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    padding: 10px;
+}
+.selected {
+    border:2px solid blue;
+}
+.QnACompleted,.pollCompleted{
+    font-size: 40px;
+    text-align: center;
+    margin: auto;
+    font-family: 'Poppins';
+    font-weight: 700;
+}
+.score{
+    color:green;
+}
+.testNextButton{
+    border-radius: 10px;
+    background-color: #60B84B;
+    height: 50px;
+    width: 300px;
+    color: white;
+    font-size: 30px;
+    font-weight: 600;
+    font-family:'Poppins';
+    left :100px
+}
+.nextbtn{
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
